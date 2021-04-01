@@ -1,83 +1,94 @@
-# ![](https://ga-dash.s3.amazonaws.com/production/assets/logo-9f88ae6c9c3871690e33280fcf557f33.png) Project 3: Web APIs & NLP
+# Project 3: Web APIs & NLP & Classification
 
-### Description
-
-In week four we've learned about a few different classifiers. In week five we'll learn about webscraping, APIs, and Natural Language Processing (NLP). This project will put those skills to the test.
-
-For project 3, your goal is two-fold:
-1. Using [Pushshift's](https://github.com/pushshift/api) API, you'll collect posts from two subreddits of your choosing.
-2. You'll then use NLP to train a classifier on which subreddit a given post came from. This is a binary classification problem.
+#### Goal: 
+1. Using [Pushshift's](https://github.com/pushshift/api) API,  collect posts from two subreddits of your choosing.
+2. Use NLP to train a classifier on which subreddit a given post came from. This is a binary classification problem.
 
 
-#### About the API
+### Contents
 
-Pushshift's API is fairly straightforward. For example, if I want the posts from [`/r/boardgames`](https://www.reddit.com/r/boardgames), all I have to do is use the following url: https://api.pushshift.io/reddit/search/submission?subreddit=boardgames
-
-To help you get started, we have a primer video on how to use the API: https://youtu.be/AcrjEWsMi_E
-
----
-
-### Requirements
-
-- Gather and prepare your data using the `requests` library.
-- **Create and compare at least two models**. These can be any classifier of your choosing: logistic regression, Naive Bayes, KNN, SVM, Random Forest Classifier, etc.
-  - **Bonus**: use a Naive Bayes classifier
-- Build a robust commit history on github and GHE for this project: at least three commits separated by at least 24 hours each  
-- A Jupyter Notebook with your analysis for a peer audience of data scientists.
-- An executive summary of your results.
-- A short presentation outlining your process and findings for a semi-technical audience.
-
-**Pro Tip:** You can find a good example executive summary [here](https://www.proposify.biz/blog/executive-summary).
-
----
-
-### Necessary Deliverables / Submission
-
-- Code and executive summary must be in a clearly commented Jupyter Notebook.
-- You must submit your slide deck.
-- Materials must be submitted by **11:59 PM PST on Sunday, April 4th 2021**.
-- Presentation must be ready by **09:00 AM PST on Friday, April 2nd 2021**.
-
----
-
-## Rubric
-Your local instructor will evaluate your project (for the most part) using the following criteria.  You should make sure that you consider and/or follow most if not all of the considerations/recommendations outlined below **while** working through your project.
-
-For Project 3 the evaluation categories are as follows:<br>
-**The Data Science Process**
-- Problem Statement
-- Data Collection
-- Data Cleaning & EDA
-- Preprocessing & Modeling
-- Evaluation and Conceptual Understanding
-- Conclusion and Recommendations
-
-**Organization and Professionalism**
-- Organization
-- Visualizations
-- Python Syntax and Control Flow
-- Presentation
-
-**Scores will be out of 30 points based on the 10 categories in the rubric.** <br>
-*3 points per section*<br>
-
-| Score | Interpretation |
-| --- | --- |
-| **0** | *Project fails to meet the minimum requirements for this item.* |
-| **1** | *Project meets the minimum requirements for this item, but falls significantly short of portfolio-ready expectations.* |
-| **2** | *Project exceeds the minimum requirements for this item, but falls short of portfolio-ready expectations.* |
-| **3** | *Project meets or exceeds portfolio-ready expectations; demonstrates a thorough understanding of every outlined consideration.* |
+1. Problem Statement
+2. Overview
+3. Data Gathering
+4. NLP Methodology
+5. Classification Models and Predictions
+6. Executive Summary
 
 
-### The Data Science Process
+### 1. Problem Statement
 
-**Problem Statement**
-- Is it clear what the goal of the project is?
-- What type of model will be developed?
-- How will success be evaluated?
-- Is the scope of the project appropriate?
-- Is it clear who cares about this or why this is important to investigate?
-- Does the student consider the audience and the primary and secondary stakeholders?
+A startup gaming company interested to learn how the current posts can be merged with reddit community to improve marketing on their new upcoming game. Any post or comment posted need to be targeted properly into the channel category.
+
+
+### 2. Overview
+
+Reddit is a home to 100K+ communities, with 52M+ daily active users and 50B+ monthly views (updated Jan 2020) and provide human connections to converation, posts, comments on variety of interests. Some of the interests I observed are in breaking news, sports, TV fan theories, gaming, products for skin etc. and much more.
+
+We will leverage Reddit posts on Gaming community posts to understand interests, likes and dislikes on features and create a model to predict based on user posts using NLP methodologies. 
+
+To determine some of the features and interests on how users use the gaming apps, products and tools - we will use 3 different sub-reddit categories - boardgames, Fallout and RockerLeagues games to build a model with the user posts and predict the sub-reddit category using NLP and Machine Language models. Ensure the models have good accuracy and precision scores to present to the executive leadership.
+
+### 3. Data Gathering
+
+Followed the process below to perform the data gathering:
+1. Pushshift API provides reddit posts from their submissions and comments area. There is lot of information within the reddit submissions. We will use 3 categories from gaming section of submissions.
+2. Tested the API to pull first 100 posts and title and created a model to understand the underlying data on the submissions.
+3. Created a function to gather more data in the size of 100 rows each for every sub reddit, introduced a timer in between the calls to ensure the API does not get overloaded.
+4. Brought in 3 different categories - boardgames, Fallout, and RocketLeague totalling to 4500 rows.
+5. Added 4th category to see if the model performs any better or breaks. But not going to use for final modeling.
+6. Concatenate all the dataframes capturing selftext, title and subreddit as our features needed. We will be using only selftext and title for our models classification.
+
+### 4. NLP 
+
+Here we focus on looking at the content our data gathered, perform EDA and NLP steps.
+
+1. At a glance look for null data, Only found nulls in self text but not in title.
+2. Checked the value counts for target value - subreddit showed near balanced classification.
+**Fallout         0.355556**
+**RocketLeague    0.333333**
+**boardgames      0.311111**
+3. Total dataset was 4500 rows
+4. For all nulls in selftext - added a stop word "do" since it will be removed as part of our NLP processing, so that we can merge the self text and title data to combine and get the completed submission_text
+5. We now have submission_text and subreddit to work with
+6. While exploring data in submission_text, figured the data needs to be cleaned for urls, special punctuations, [removed] etc. Created a function to tokenize and bring words and lemmatize the words in the submission_text.
+7. Now we have clean words that can be used for NLP vectorizers and classification models. Save that to csv - datasets/redditready.csv
+
+### 5. Classification Models and Predictions
+
+** The 2 models used in our classification problem are: **
+
+1. Naive Bayes - Multinomial Classifier
+   
+   ** I have used MultinomialNB as it works well with positive integers and great aat predicting multi classification problems. As I chose 3 classifier's in the dataset, MultinomialNB with CountVectorizer using GridSearchCV and hyperparameter tuning with Pipelines.
+   The best parameters used:
+    - max_df = 0.85
+    - max_features = 4000
+    - min_df = 2
+    - ngram_range = (1, 1)
+    
+    The classification report generated from Multinomial NB is as follows:
+    
+    ![Screenshot](./assets/precisionMNB.png)
+    
+    
+2. SVM - Support Vecotor Classifier
+  
+  ** SVC is from Support Vector Machines algorith provides regularization as part of the hyper parameter tuning. Used kernel and C to tune the model and get the best parameters to work with. Used GridSearchCV with the Pipelines.
+  The best parameters used:
+    - C value = 0.4737368421052632
+    - kernel = linear
+    - degree = 2
+    - gamma = scale
+    
+    The classification report generated from Multinomial NB is as follows:
+    
+    ![Screenshot](./assets/precisionSVM.png)
+    
+3. Random Forest Classifier
+
+### 6. Executive Summary
+
+Reddit community posts contains a lot of useful data that can help predicting on the subreddit based on the post information. Created models on the NLP 
 
 **Data Collection**
 - Was enough data gathered to generate a significant result?
@@ -117,52 +128,5 @@ For Project 3 the evaluation categories are as follows:<br>
 - Are future steps to move the project forward identified?
 
 
-### Organization and Professionalism
-
-**Project Organization**
-- Are modules imported correctly (using appropriate aliases)?
-- Are data imported/saved using relative paths?
-- Does the README provide a good executive summary of the project?
-- Is markdown formatting used appropriately to structure notebooks?
-- Are there an appropriate amount of comments to support the code?
-- Are files & directories organized correctly?
-- Are there unnecessary files included?
-- Do files and directories have well-structured, appropriate, consistent names?
-
-**Visualizations**
-- Are sufficient visualizations provided?
-- Do plots accurately demonstrate valid relationships?
-- Are plots labeled properly?
-- Are plots interpreted appropriately?
-- Are plots formatted and scaled appropriately for inclusion in a notebook-based technical report?
-
-**Python Syntax and Control Flow**
-- Is care taken to write human readable code?
-- Is the code syntactically correct (no runtime errors)?
-- Does the code generate desired results (logically correct)?
-- Does the code follows general best practices and style guidelines?
-- Are Pandas functions used appropriately?
-- Are `sklearn` and `NLTK` methods used appropriately?
-
-**Presentation**
-- Is the problem statement clearly presented?
-- Does a strong narrative run through the presentation building toward a final conclusion?
-- Are the conclusions/recommendations clearly stated?
-- Is the level of technicality appropriate for the intended audience?
-- Is the student substantially over or under time?
-- Does the student appropriately pace their presentation?
-- Does the student deliver their message with clarity and volume?
-- Are appropriate visualizations generated for the intended audience?
-- Are visualizations necessary and useful for supporting conclusions/explaining findings?
 
 
----
-
-### Why did we choose this project for you?
-This project covers three of the biggest concepts we cover in the class: Classification Modeling, Natural Language Processing and Data Wrangling/Acquisition.
-
-Part 1 of the project focuses on **Data wrangling/gathering/acquisition**. This is a very important skill as not all the data you will need will be in clean CSVs or a single table in SQL.  There is a good chance that wherever you land you will have to gather some data from some unstructured/semi-structured sources; when possible, requesting information from an API, but often scraping it because they don't have an API (or it's terribly documented).
-
-Part 2 of the project focuses on **Natural Language Processing** and converting standard text data (like Titles and Comments) into a format that allows us to analyze it and use it in modeling.
-
-Part 3 of the project focuses on **Classification Modeling**.  Given that project 2 was a regression focused problem, we needed to give you a classification focused problem to practice the various models, means of assessment and preprocessing associated with classification.   
