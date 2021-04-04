@@ -1,13 +1,13 @@
 # Project 3: Executive Summary
 
-As Reddit has 52m+ daily active users on communities, we will use posts history for 3 gaming categories how boardgames are used and understand human behavior. 
+As Reddit has 52m+ daily active users on communities, we will use posts history for 3 gaming categories to understand human behavior on posts for boardgames. 
 After performing NLP on our data gathered, few models have been created to check the accuracy scores and predictions. We have outlined precision scores and recall scores for each model and pick a model to predict. We can also evaluate from the model, most common words used in boardgames category to understand the postive or negative feedback. 
 
 The data only includes post title and description for our modeling. 
 - Baseline with data show:
 **Fallout         0.355556**
-**RocketLeague    0.333333**
-**boardgames      0.311111**
+\n**RocketLeague    0.333333**
+\n**boardgames      0.311111**
 
 ** Distribution of post length for all 3 subreddits **
  ![Screenshot](./assets/pl.png)
