@@ -67,7 +67,8 @@ Here we focus on looking at the content our data gathered, perform EDA and NLP s
     - ngram_range = (1, 1)
     
     The classification report generated from Multinomial NB is as follows:
-    ![Screenshot](./assets/precisionMNB.png
+    
+    ![Screenshot](./assets/precision_mnb.png)
     
 2. SVM - Support Vector Classifier with CountVectorizer and GridSearchCV
   
@@ -79,7 +80,8 @@ Here we focus on looking at the content our data gathered, perform EDA and NLP s
     - gamma = scale
   
    The classification report generated from SVM is as follows:
-   ![Screenshot](./assets/precisionSVM.png)
+  
+  ![Screenshot](./assets/precision_svm.png)
 
 ### 6. Conclusion
 
@@ -97,16 +99,8 @@ The accuracy score for the model is at 80.64%, which yielded
 
 When compared to SVM classifier, this model performed with better precision score for boardgames topping at 90%.
 
-![Screenshot](./assets/25commonboardgames.png)
+![Screenshot](./assets/bg.png)
 
 Based on the most common 25 words for boardgames, there were lot of positive words represented in the distribution. Words such as like, love, fun, best, need, make, help, expansion were part of the posts for boardgames. 
-
-### 6. Executive Summary
-
-Reddit community posts contains a lot of useful data that can help predicting on the subreddit based on the post information. Created models on the NLP 
-
-
-
-
 
 
